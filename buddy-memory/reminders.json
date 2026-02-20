@@ -1,0 +1,38 @@
+{
+  "reminders": [
+    {
+      "chatJid": "182845431672905@lid",
+      "creatorJid": "182845431672905@lid",
+      "creatorName": "A.RA",
+      "message": "I want you to drink tea",
+      "scheduledTime": "2026-02-18T19:12:00.000Z",
+      "isRecurring": false,
+      "isActive": false,
+      "id": "rem_1771441866169_5ys2q",
+      "createdAt": "2026-02-18T19:11:06.169Z"
+    },
+    {
+      "chatJid": "182845431672905@lid",
+      "creatorJid": "182845431672905@lid",
+      "creatorName": "A.RA",
+      "message": "drink tea",
+      "scheduledTime": "2026-02-18T19:18:12.684Z",
+      "isRecurring": false,
+      "isActive": false,
+      "id": "rem_1771442112684_wtnic",
+      "createdAt": "2026-02-18T19:15:12.684Z"
+    },
+    {
+      "chatJid": "182845431672905@lid",
+      "creatorJid": "182845431672905@lid",
+      "creatorName": "A.RA",
+      "message": "to restart my computer",
+      "scheduledTime": "2026-02-18T19:34:54.699Z",
+      "isRecurring": false,
+      "isActive": false,
+      "id": "rem_1771443234700_lcvzj",
+      "createdAt": "2026-02-18T19:33:54.700Z"
+    }
+  ],
+  "version": 1
+}

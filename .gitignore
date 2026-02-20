@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Environment variables (contains API keys)
+.env
+
+# WhatsApp authentication state (session credentials)
+auth/
+
+# Memory storage (conversation logs - may contain private data)
+buddy-memory/daily/
+buddy-memory/users/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Persona configuration (may contain personal preferences/phone numbers)
+buddy-config.json

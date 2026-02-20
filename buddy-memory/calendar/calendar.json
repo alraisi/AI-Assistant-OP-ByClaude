@@ -1,0 +1,13 @@
+{
+  "events": [
+    {
+      "id": "evt_mlslt8xi_bsnvg",
+      "title": "Lunch meeting",
+      "description": "Lunch meeting tomorrow at 1PM",
+      "startTime": "2026-02-20T09:00:00.000Z",
+      "createdBy": "182845431672905@lid",
+      "createdAt": "2026-02-18T22:28:48.630Z",
+      "reminderSent": false
+    }
+  ]
+}
