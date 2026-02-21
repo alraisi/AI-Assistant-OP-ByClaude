@@ -35,10 +35,19 @@ vi.mock('../../persona/loader.js', () => ({
 
 vi.mock('../config/index.js', () => ({
   getConfig: vi.fn(() => ({ buddyName: 'Buddy' })),
+  isEnabled: vi.fn(() => false),
 }));
 
 vi.mock('../safety/privacy.js', () => ({
   sanitizeForLogging: vi.fn((t: string) => t),
+}));
+
+vi.mock('../core/tool-definitions.js', () => ({
+  getAvailableTools: vi.fn(() => []),
+}));
+
+vi.mock('../core/tool-executor.js', () => ({
+  executeTool: vi.fn(),
 }));
 
 vi.mock('../setup/index.js', () => ({

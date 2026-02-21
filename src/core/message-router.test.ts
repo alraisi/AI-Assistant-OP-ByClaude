@@ -634,7 +634,7 @@ describe('routeMessage — text dispatch', () => {
 
   describe('C.8 intent classification', () => {
     it('calls classifyIntent when intentClassification is enabled', async () => {
-      mockIsEnabled.mockReturnValue(true);
+      mockIsEnabled.mockImplementation((flag) => flag === 'intentClassification');
       mockClassifyIntent.mockResolvedValue({ intent: 'greeting', confidence: 0.9, entities: {} });
 
       await routeMessage(sock, createTextMessage('hello'), ctx);

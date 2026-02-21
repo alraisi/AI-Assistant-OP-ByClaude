@@ -124,6 +124,12 @@ export async function routeMessage(
         };
       }
 
+      // When tool_use is enabled, Claude handles all routing via tools
+      if (isEnabled('toolUse')) {
+        const result = await handleTextMessage(sock, message, text, context);
+        return { ...result, contentType };
+      }
+
       // Classify intent (for logging and future smart routing)
       let detectedIntent: IntentType = 'unknown';
       if (isEnabled('intentClassification')) {

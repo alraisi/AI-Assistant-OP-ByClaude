@@ -9,6 +9,9 @@ import type {
   MultiVisionProvider,
   MultiVisionRequest,
   MultiVisionResponse,
+  ChatWithToolsRequest,
+  ChatWithToolsResponse,
+  ContentBlock,
 } from './types.js';
 import { getConfig } from '../config/index.js';
 import { withRetry } from '../utils/retry.js';
@@ -150,6 +153,42 @@ export class ClaudeProvider implements LLMProvider, VisionProvider, MultiVisionP
       usage: {
         inputTokens: msg.usage.input_tokens,
         outputTokens: msg.usage.output_tokens,
+      },
+    };
+  }
+
+  async chatWithTools(request: ChatWithToolsRequest): Promise<ChatWithToolsResponse> {
+    const messages = request.messages.map((msg) => ({
+      role: msg.role as 'user' | 'assistant',
+      content: msg.content as string | Array<{ type: string; [key: string]: unknown }>,
+    }));
+
+    const tools = request.tools?.map((t) => ({
+      name: t.name,
+      description: t.description,
+      input_schema: t.input_schema as Anthropic.Messages.Tool.InputSchema,
+    }));
+
+    const response = await withRetry(
+      async () => {
+        const params: Anthropic.Messages.MessageCreateParamsNonStreaming = {
+          model: this.model,
+          max_tokens: request.maxTokens || 2048,
+          system: request.systemPrompt,
+          messages: messages as Anthropic.Messages.MessageParam[],
+          ...(tools && tools.length > 0 ? { tools } : {}),
+        };
+        return this.client.messages.create(params);
+      },
+      { timeoutMs: 90_000, maxRetries: 2, label: 'claude-chat-tools' }
+    );
+
+    return {
+      content: response.content as ContentBlock[],
+      stopReason: response.stop_reason as 'end_turn' | 'tool_use' | 'max_tokens',
+      usage: {
+        inputTokens: response.usage.input_tokens,
+        outputTokens: response.usage.output_tokens,
       },
     };
   }

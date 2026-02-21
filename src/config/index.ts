@@ -98,6 +98,7 @@ function loadFeatureFlags(): FeatureFlags {
     groupKnowledgeBase: process.env.FF_GROUP_KNOWLEDGE_BASE === 'true',
     
     // Phase 5: Architecture
+    toolUse: process.env.FF_TOOL_USE === 'true',
     pluginSystem: process.env.FF_PLUGIN_SYSTEM === 'true',
     webhookSystem: process.env.FF_WEBHOOK_SYSTEM === 'true',
   };

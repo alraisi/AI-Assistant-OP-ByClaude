@@ -104,6 +104,7 @@ export const FeatureFlagsSchema = z.object({
   groupKnowledgeBase: z.boolean().default(false),
   
   // Phase 5: Architecture
+  toolUse: z.boolean().default(false),
   pluginSystem: z.boolean().default(false),
   webhookSystem: z.boolean().default(false),
 });

@@ -144,3 +144,59 @@ export interface DocumentAnalysisResponse {
 export interface DocumentAnalysisProvider {
   analyzeDocument(request: DocumentAnalysisRequest): Promise<DocumentAnalysisResponse>;
 }
+
+// Tool_use content blocks (matches Anthropic API format)
+export interface TextBlock {
+  type: 'text';
+  text: string;
+}
+
+export interface ToolUseBlock {
+  type: 'tool_use';
+  id: string;
+  name: string;
+  input: Record<string, unknown>;
+}
+
+export interface ToolResultBlock {
+  type: 'tool_result';
+  tool_use_id: string;
+  content: string;
+  is_error?: boolean;
+}
+
+export type ContentBlock = TextBlock | ToolUseBlock | ToolResultBlock;
+
+// Tool definition (matches Anthropic API format)
+export interface ToolDefinition {
+  name: string;
+  description: string;
+  input_schema: {
+    type: 'object';
+    properties: Record<string, unknown>;
+    required?: string[];
+  };
+}
+
+// Extended message type for tool conversations
+export interface ToolMessage {
+  role: 'user' | 'assistant';
+  content: string | ContentBlock[];
+}
+
+// Request/Response for tool-aware chat
+export interface ChatWithToolsRequest {
+  systemPrompt: string;
+  messages: ToolMessage[];
+  tools?: ToolDefinition[];
+  maxTokens?: number;
+}
+
+export interface ChatWithToolsResponse {
+  content: ContentBlock[];
+  stopReason: 'end_turn' | 'tool_use' | 'max_tokens';
+  usage?: {
+    inputTokens: number;
+    outputTokens: number;
+  };
+}
