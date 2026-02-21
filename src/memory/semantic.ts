@@ -34,7 +34,6 @@ interface VectorStore {
 }
 
 const VECTOR_STORE_VERSION = 1;
-const EMBEDDING_MODEL = 'text-embedding-3-small';
 const EMBEDDING_DIMENSION = 1536;
 const SIMILARITY_THRESHOLD = 0.7; // Minimum cosine similarity
 const MAX_ENTRIES = 10000; // Evict oldest entries beyond this limit
@@ -77,8 +76,9 @@ class SemanticMemory {
     const client = openai;
     
     try {
+      const config = getConfig();
       const response = await client.embeddings.create({
-        model: EMBEDDING_MODEL,
+        model: config.embeddingModel,
         input: text.slice(0, 8000), // OpenAI limit
         encoding_format: 'float',
       });

@@ -10,7 +10,12 @@ export const ConfigSchema = z.object({
   // Model Configuration
   anthropicModel: z.string().default('claude-sonnet-4-20250514'),
   geminiModel: z.string().default('gemini-2.0-flash'),
+  geminiImageModel: z.string().default('gemini-2.0-flash-exp'),
   whisperModel: z.string().default('whisper-1'),
+  ttsModel: z.string().default('tts-1'),
+  ttsVoice: z.enum(['alloy', 'echo', 'fable', 'onyx', 'nova', 'shimmer']).default('nova'),
+  dalleModel: z.string().default('dall-e-3'),
+  embeddingModel: z.string().default('text-embedding-3-small'),
 
   // Buddy Configuration
   buddyName: z.string().default('Buddy'),

@@ -16,6 +16,9 @@ import { withRetry } from '../utils/retry.js';
 export class OpenAIProvider implements TranscriptionProvider, TTSProvider, ImageGenerationProvider {
   private client: OpenAI;
   private whisperModel: string;
+  private ttsModel: string;
+  private ttsVoice: 'alloy' | 'echo' | 'fable' | 'onyx' | 'nova' | 'shimmer';
+  private dalleModel: string;
 
   constructor() {
     const config = getConfig();
@@ -23,6 +26,9 @@ export class OpenAIProvider implements TranscriptionProvider, TTSProvider, Image
       apiKey: config.openaiApiKey,
     });
     this.whisperModel = config.whisperModel;
+    this.ttsModel = config.ttsModel;
+    this.ttsVoice = config.ttsVoice;
+    this.dalleModel = config.dalleModel;
   }
 
   async transcribe(request: TranscriptionRequest): Promise<TranscriptionResponse> {
@@ -51,8 +57,8 @@ export class OpenAIProvider implements TranscriptionProvider, TTSProvider, Image
   async synthesize(request: TTSRequest): Promise<TTSResponse> {
     const response = await withRetry(
       () => this.client.audio.speech.create({
-        model: 'tts-1',
-        voice: request.voice || 'nova',
+        model: this.ttsModel,
+        voice: request.voice || this.ttsVoice,
         input: request.text,
         speed: request.speed || 1.0,
         response_format: 'opus',
@@ -72,7 +78,7 @@ export class OpenAIProvider implements TranscriptionProvider, TTSProvider, Image
   async generateImage(request: ImageGenerationRequest): Promise<ImageGenerationResponse> {
     const response = await withRetry(
       () => this.client.images.generate({
-        model: 'dall-e-3',
+        model: this.dalleModel,
         prompt: request.prompt,
         n: 1,
         size: request.size || '1024x1024',

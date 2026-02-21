@@ -49,7 +49,12 @@ describe('ConfigSchema', () => {
     expect(result.buddyEmoji).toBe('\u{1F916}');
     expect(result.anthropicModel).toBe('claude-sonnet-4-20250514');
     expect(result.geminiModel).toBe('gemini-2.0-flash');
+    expect(result.geminiImageModel).toBe('gemini-2.0-flash-exp');
     expect(result.whisperModel).toBe('whisper-1');
+    expect(result.ttsModel).toBe('tts-1');
+    expect(result.ttsVoice).toBe('nova');
+    expect(result.dalleModel).toBe('dall-e-3');
+    expect(result.embeddingModel).toBe('text-embedding-3-small');
     expect(result.memoryStoragePath).toBe('./buddy-memory');
     expect(result.whatsappAuthPath).toBe('./auth/baileys_auth_info');
     expect(result.logLevel).toBe('info');

@@ -19,6 +19,7 @@ const logger = pino({ name: 'gemini-provider' });
 export class GeminiProvider implements LLMProvider, DocumentAnalysisProvider, ImageGenerationProvider {
   private ai: GoogleGenAI;
   private model: string;
+  private imageModel: string;
 
   constructor() {
     const config = getConfig();
@@ -27,6 +28,7 @@ export class GeminiProvider implements LLMProvider, DocumentAnalysisProvider, Im
     }
     this.ai = new GoogleGenAI({ apiKey: config.geminiApiKey });
     this.model = config.geminiModel;
+    this.imageModel = config.geminiImageModel;
   }
 
   async chat(request: ChatRequest): Promise<ChatResponse> {
@@ -114,12 +116,12 @@ export class GeminiProvider implements LLMProvider, DocumentAnalysisProvider, Im
   }
 
   async generateImage(request: ImageGenerationRequest): Promise<ImageGenerationResponse> {
-    logger.info({ prompt: request.prompt.slice(0, 100) }, 'Generating image with Gemini (gemini-2.0-flash-exp)');
+    logger.info({ prompt: request.prompt.slice(0, 100), model: this.imageModel }, 'Generating image with Gemini');
 
     try {
       const response = await withRetry(
         () => this.ai.models.generateContent({
-          model: 'gemini-2.0-flash-exp',
+          model: this.imageModel,
           contents: [{ role: 'user', parts: [{ text: request.prompt }] }],
           config: {
             responseModalities: ['Text', 'Image'],
